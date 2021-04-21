@@ -5,12 +5,17 @@ import scala.collection.JavaConversions._
 import scala.util.Properties
 import java.util
 object ConfigurationEntry extends StrictLogging {
+
   var bootstrapServersprod = "10.0.0.10:9092"
   var bootstrapServerscons = "10.0.0.10:9092"
   var topics = List[String]()
-  var relevant_data = List[String]()
+  var telemetry = ""
   var outTopic = ""
-  var speedLimit: Double = 0
+  var value: Double = 0
+  var duration: Double =0
+  var repetition : Double =0
+  var operator = ""
+
   def getConfFile(env: String): String = {
     env match {
       case "local" ⇒ "application-local.conf"
@@ -30,8 +35,12 @@ object ConfigurationEntry extends StrictLogging {
     bootstrapServerscons = myConfig.envOrElseConfig("kafka.consumer.servers")
     outTopic = myConfig.envOrElseConfig("kafka.producer.topics")
     topics = myConfig.readTopics("kafka.consumer.topics")
-    relevant_data = myConfig.readTopics("kafka.consumer.relevant_data")
-    speedLimit = myConfig.speed("kafka.parameter.speedLimit")
+    telemetry = myConfig.envOrElseConfig("kafka.consumer.telemetry")
+    value= myConfig.speed("kafka.parameter.value")
+    duration= myConfig.speed("kafka.parameter.duration")
+    repetition = myConfig.speed("kafka.parameter.repetition")
+    operator = myConfig.envOrElseConfig("kafka.parameter.operator")
+
     logger.debug("Kafka: {}", bootstrapServersprod)
     logger.debug("Kafka: {}", bootstrapServerscons)
   }

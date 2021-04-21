@@ -1,16 +1,17 @@
-package MachinesTalk
+/*package MachinesTalk
 import MachinesTalk.configuration.ConfigurationEntry
+import MachinesTalk.configuration.ConfigurationEntry.topics
 
 import java.util
 import java.util.Properties
 import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
 import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
-import org.apache.flink.cep.PatternSelectFunction
-import org.apache.flink.cep.scala.CEP
+import org.apache.flink.cep.{CEP, PatternSelectFunction, PatternStream}
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.cep.scala.pattern.Pattern
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.ObjectNode
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
+import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer
 
 import scala.collection.mutable.Map
@@ -38,16 +39,15 @@ import scala.collection.JavaConversions._
       x
     }
 
-    var envirment: String = "local"
+    val envirment: String = "local"
     ConfigurationEntry.initConfig(envirment)
-    val TEMPERATURE_THRESHOLD: Double = 50.00
 
     val see: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     val properties = new Properties()
     properties.setProperty("bootstrap.servers", "localhost:9092")
-    val  topics : List[String]  = List("ahmed","meher")
     val kafkaConsumer = new FlinkKafkaConsumer[ObjectNode](topics, new JSONKeyValueDeserializationSchema(false), properties)
     val src: DataStream[ObjectNode] = see.addSource(kafkaConsumer)
+
 
     val values: Map[String, String] = Map()
     val mapper = new ObjectMapper() with ScalaObjectMapper
@@ -57,32 +57,27 @@ import scala.collection.JavaConversions._
       traverse(node, values)
       values
     })
-    /*values.foreach(node =>{
-      println("k"+node._1+"v"+node._2)
-    })
-    for ((k,v) <- values) println("key: %s, value: %s", k, v)*/
-    var loc:String=""
-    val keyedStream = src.map(v => v.get("value"))
-      .map {
-        v =>
-          loc = v.get("locationID").asText()
-          val temp = v.get("temp").asDouble()
-          (loc, temp)
-      }
-    stream.print()
+
+
+
     val pat = Pattern
-      .begin[Map[String, String]]("start")
-      .where()
-    val patternStream = CEP.pattern(Stream, pat)
-    /*val result: DataStream[Map[String, Any]] = patternStream.select(
+      .begin[(String, Double)]("start")
+      .where(_._2 > value)
+      .within(Time.seconds(60))
+
+    val patternStream: PatternStream[Map[String, String]] = CEP.pattern(stream, pat)
+
+    val result: DataStream[Map[String, Any]] = patternStream.select(
       new PatternSelectFunction[(String, Double), Map[String, Any]]() {
         override def select(pattern: util.Map[String, util.List[(String, Double)]]): Map[String, Any] = {
           val data = pattern.get("start").get(0) //alternative of iteration
-          Map("locationID" -> data._1, "temperature" -> data._2)
+          Map("driverID" -> data._1, "speed" -> data._2)
         }
       }
     )
-    result.print()*/
+
+
+    result.print()
     see.execute("ASK Flink Kafka")
   }
-}
+}*/
