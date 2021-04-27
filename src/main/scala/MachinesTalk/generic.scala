@@ -42,19 +42,21 @@ object generic {
       val value = node.get(telemetry).asDouble()
       (telemetry,value)
 
-    })
+    }).keyBy(_._1)
 
     val pat =  Pattern.begin[(String, Double)]("start")
     if (operator == "greater than") {
          pat.where(_._2 > value)
         .within(Time.seconds(duration.toLong))
         .times(repetition.toInt)
+           .consecutive()
     }
     else {
       pat
-        .where(_._2 > value)
+        .where(_._2 < value)
         .within(Time.seconds(duration.toLong))
         .times(repetition.toInt)
+        .consecutive()
     }
 
 
