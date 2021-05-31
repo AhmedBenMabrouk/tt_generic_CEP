@@ -1,0 +1,24 @@
+kafka:
+  producer:
+    servers: localhost:9092
+    topics: bilel
+  consumer:
+    servers: localhost:9092
+    topics:
+    - meher
+    - ahmed
+  parameter:
+    telemetry:
+    - speed
+    - battery
+    operator:
+    - GREATER_THAN
+    - GREATER_THAN
+    value:
+    - '100'
+    - '100'
+    operation:
+    - AND
+    duration: 60
+    repetition: 2
+    key: device_ID

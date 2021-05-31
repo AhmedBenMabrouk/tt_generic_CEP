@@ -1,4 +1,4 @@
-[0m[[0m[0mdebug[0m] [0m[0mnot up to date. inChanged = true, force = false[0m
-[0m[[0m[0mdebug[0m] [0m[0mUpdating ProjectRef(uri("file:/home/user/IdeaProjects/tt_generic_CEP/project/"), "tt_generic_cep-build")...[0m
-[0m[[0m[0mdebug[0m] [0m[0mDone updating ProjectRef(uri("file:/home/user/IdeaProjects/tt_generic_CEP/project/"), "tt_generic_cep-build")[0m
-[0m[[0m[33mwarn[0m] [0m[0mThere may be incompatibilities among your library dependencies; run 'evicted' to see detailed eviction warnings.[0m
+[debug] "not up to date. inChanged = true, force = false
+[debug] Updating ProjectRef(uri("file:/home/user/IdeaProjects/tt_generic_CEP/project/"), "tt_generic_cep-build")...
+[debug] Done updating ProjectRef(uri("file:/home/user/IdeaProjects/tt_generic_CEP/project/"), "tt_generic_cep-build")
+[warn] There may be incompatibilities among your library dependencies; run 'evicted' to see detailed eviction warnings.
