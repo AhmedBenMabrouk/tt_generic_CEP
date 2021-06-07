@@ -39,7 +39,7 @@ object generic {
       x
     }
 
-    def compare(a : Double, op : String , b : Double) : condition = {
+    def compare(a : Double, op : String , b : Double) : Boolean = {
       val result = op match {
         case "GREATER_THAN" =>   a > b
         case "GREATER_OR_EQUAL"  =>  a >=b
@@ -67,7 +67,7 @@ object generic {
       keyy = node.get(key).toString
       val values: Map[String, Double] = Map()
       traverse(node, values)
-      for (tel  <- telemetry) {
+        for (tel  <- telemetry) {
         if (!(values.keys.contains(tel))) {
           values.put(tel, 0)
         }
@@ -137,7 +137,7 @@ object generic {
       }
     )
     val propertiess = new Properties
-    propertiess.setProperty("bootstrap.servers", "127.0.0.1:9092")
+    propertiess.setProperty("bootstrap.servers", "localhost:9092")
     val myProducer = new FlinkKafkaProducer[Map[String, Any]](
       outTopic, // target topic
       new SerializationSchema[Map[String, Any]] {
@@ -148,7 +148,14 @@ object generic {
           var objectNode1: ObjectNode = mapper.createObjectNode();
           for (elements <- element) {
             if(element.get("valeur")!=null)
-              objectNode1.put(element.get("telemetry")toString, element.get("valeur").toString)
+              objectNode1.put(key, element.get("telemetry").get.toString)
+              val map = element.get("valeur").get.asInstanceOf[Map[String, Double]]
+              for (tel <- telemetry)
+                {
+                  objectNode1.put(tel, map.get(tel).get.toString)
+                }
+              objectNode1.put("result", "yes")
+
             //            arrayNode.add(objectNode1)
           }
           objectNode1.toString.getBytes("UTF8")

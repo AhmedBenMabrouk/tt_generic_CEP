@@ -1,4 +1,3 @@
-[warn] cats-kernel_2.12-2.1.0-sources.jar no longer exists at /C:/Users/crok0/AppData/Local/Coursier/cache/v1/https/repo1.maven.org/maven2/org/typelevel/cats-kernel_2.12/2.1.0/cats-kernel_2.12-2.1.0-sources.jar
-[debug] "not up to date. inChanged = false, force = false
+[debug] "not up to date. inChanged = true, force = false
 [debug] Updating ProjectRef(uri("file:/home/user/IdeaProjects/tt_generic_CEP/"), "root")...
 [debug] Done updating ProjectRef(uri("file:/home/user/IdeaProjects/tt_generic_CEP/"), "root")
